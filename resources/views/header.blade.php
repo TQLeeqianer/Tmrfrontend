@@ -57,11 +57,15 @@
         <a href="#review">review</a>
         <a href="#contact">contact</a>
 
-        <?php $user = Auth::user(); ?>
 
-        @if($user)
-            <a href="{{route("profile.edit")}}">{{$user->name}}</a>
-            <a href="{{route('logout')}}">Logout</a>
+        @auth()
+            <a href="{{route("profile.edit")}}">{{auth()->user()->name}}</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
+                @csrf
+            </form>
+
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+
         @else
             <a href="{{route('login')}}">Login</a>
         @endif

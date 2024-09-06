@@ -6,128 +6,147 @@
     /* Style the tab */
     .tab {
         overflow: hidden;
-        border: 1px solid #ccc;
-        background-color: #4CAF50;
+        border-bottom: 2px solid #555;
+        background-color: #1e3a8a; /* Darker, more vibrant background */
+        border-radius: 10px 10px 0 0; /* Rounded top corners for a modern look */
     }
 
     /* Style the buttons that are used to open the tab content */
     .tab button {
-        background-color: inherit;
+        background-color: #3b82f6; /* Brighter blue for better contrast */
+        color: white;
         float: left;
         border: none;
         outline: none;
         cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
+        padding: 14px 20px;
+        transition: background-color 0.3s, color 0.3s, transform 0.2s; /* Smooth transitions */
+        border-radius: 10px 10px 0 0; /* Match tab container's rounded corners */
     }
 
     /* Change background color of buttons on hover */
     .tab button:hover {
-        background-color: #ddd;
+        background-color: #2563eb; /* Slightly darker blue on hover */
+        color: #e0f2fe;
+        transform: translateY(-2px); /* Slight elevation effect */
     }
 
     /* Create an active/current tablink class */
     .tab button.active {
-        background-color: #ccc;
+        background-color: #1e40af; /* Even darker blue for active tab */
+        color: #e0f2fe; /* Lighter text color for better readability */
     }
 
     /* Style the tab content */
     .tabcontent {
-        /*display: none;*/
-        padding: 6px 12px;
-        /*border: 1px solid #ccc;*/
+        padding: 20px;
+        border: 1px solid #555;
         border-top: none;
-        animation: fadeEffect 1s; /* Fading effect takes 1 second */
+        animation: fadeEffect 0.8s;
+        background-color: #f1f5f9; /* Light background for content */
+        color: #1e293b; /* Darker text color for readability */
+        border-radius: 0 0 10px 10px; /* Rounded bottom corners */
     }
 
     /* Go from zero to full opacity */
     @keyframes fadeEffect {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
-
     .event-container {
-        padding: 20px;
-        color: #ffffff;
+        padding: 25px;
+        color: #1e293b; /* Darker text color for event details */
+        background-color: #e2e8f0; /* Light gray background for contrast */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     }
 
     .event-header {
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #1e3a8a; /* Match primary color */
     }
 
     .event-details {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        font-size: 18px;
+        line-height: 1.7;
+        color: #334155; /* Slightly darker for detail text */
     }
 
     .time-slots {
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
     .time-slot {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 
     .time-slot label {
         margin-left: 10px;
+        color: #1e293b;
+        font-weight: bold; /* Make labels stand out */
     }
 
     .select-button {
         display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #4CAF50;
+        margin: 30px auto;
+        padding: 14px 28px;
+        background-color: #10b981; /* Bright green for action button */
         color: white;
         border: none;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 10px;
+        font-size: 18px;
+        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
     }
 
     .select-button:hover {
-        background-color: #45a049;
+        background-color: #059669; /* Darker green on hover */
+        transform: translateY(-2px); /* Slight elevation effect */
     }
 
     .stalls-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
+        margin-top: 35px;
+        background-color: #e2e8f0; /* Light gray background for tables */
+        color: #1e293b;
+        border-radius: 10px;
+        overflow: hidden; /* Ensure rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     }
 
     .stalls-table th, .stalls-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
+        border: 1px solid #cbd5e1; /* Light border color */
+        padding: 14px;
+        text-align: center;
     }
 
     .stalls-table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
+        background-color: #3b82f6; /* Match primary color */
         color: white;
-    }
-
-    .stalls-table td {
-        color: white;
+        font-weight: bold;
     }
 
     .selected-timeslot-count {
-        background-color: darkred;
+        background-color: #ef4444; /* Bright red for alert */
         color: white;
-        padding: 5px;
+        padding: 5px 12px;
         border-radius: 50%;
         margin-right: 10px;
-
+        font-size: 16px; /* Slightly larger for emphasis */
     }
+    
 </style>
+
+
 
 <!-- Initialize AngularJS app -->
 <section class="home" id="app">
-
 
 
     <div class="content event-container">
@@ -194,7 +213,9 @@
 
                         <tr v-for="(stall, index) in displayStalls" :key="stall.stall_id">
                             <td>
-                                <input type="checkbox" @click="selectStall(stall.stall_id, stall.price)" v-show="stall.status != 1"   :checked="isStallSelected(stall.stall_id, stall.time_slot_id)">
+                                <input type="checkbox" @click="selectStall(stall.stall_id, stall.price)"
+                                       v-show="stall.status != 1"
+                                       :checked="isStallSelected(stall.stall_id, stall.time_slot_id)">
                                 <span v-show="stall.status == 1" style="color: red">Booked</span>
                             </td>
                             <td>@{{ stall.stall_type }}@{{ stall.stall_count }}</td>
@@ -213,7 +234,11 @@
             </div>
 
             <div style="text-align: center;" v-show="totalCount > 0">
-                <button type="button" class="select-button" @click.prevent="makePayment">Make Payment</button>
+
+                <button type="button" class="select-button" @click.prevent="makePayment" v-if="!isMakePaymentClicked">
+                    Make Payment
+                </button>
+                <button type="button" class="select-button" v-else>Loading</button>
             </div>
 
         </div>
@@ -236,12 +261,53 @@
                 stalls: [],
                 totalCount: 0,
                 total: 0,
+                isLoggedIn: false,
+                isMakePaymentClicked: false
             }
         },
         mounted() {
             this.getData();
+            this.checkLoginStatus();
+
+            // 恢复选择的数据
+            const savedStallList = localStorage.getItem('selectedStallList');
+            const savedTimeSlot = localStorage.getItem('selectedTimeSlot');
+            const savedTotalCount = localStorage.getItem('totalCount');
+            const savedTotal = localStorage.getItem('total');
+
+            if (savedStallList) {
+                this.selectedStallList = JSON.parse(savedStallList);
+            }
+            if (savedTimeSlot) {
+                this.selectedTimeSlot = savedTimeSlot;
+            }
+            if (savedTotalCount) {
+                this.totalCount = parseInt(savedTotalCount);
+            }
+            if (savedTotal) {
+                this.total = parseFloat(savedTotal);
+            }
+
+
+            // 清除保存的数据
+            localStorage.removeItem('selectedStallList');
+            localStorage.removeItem('selectedTimeSlot');
+            localStorage.removeItem('totalCount');
+            localStorage.removeItem('total');
         },
         methods: {
+            checkLoginStatus() {
+                fetch('{{route('check-login')}}')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.isLoggedIn = data.loggedIn;
+                    })
+                    .catch(error => {
+                        console.error('Error checking login status:', error);
+                    });
+            },
+
+
             selectStall(stallId, price) {
                 //selectedStallList object => {stallId: 1, timeSlotId: 1}
                 //If the stall is already selected with same timeslotId, remove it from the list
@@ -275,7 +341,7 @@
                 console.log(this.selectedTimeSlot);
 
             },
-            getData(){
+            getData() {
                 fetch("{{ route('event-data', ['id' => $event->id]) }}")
                     .then(response => response.json())
                     .then(data => {
@@ -294,6 +360,18 @@
 
 
             makePayment() {
+
+                this.isMakePaymentClicked = true;
+
+                if (!this.isLoggedIn) {
+                    // 用户未登录，重定向到登录页面并保存选择的数据
+                    localStorage.setItem('selectedStallList', JSON.stringify(this.selectedStallList));
+                    localStorage.setItem('selectedTimeSlot', this.selectedTimeSlot);
+                    localStorage.setItem('totalCount', this.totalCount);
+                    localStorage.setItem('total', this.total);
+                    window.location.href = "{{ route('login') }}";
+                    return;
+                }
                 // Handle payment logic
 
                 fetch("{{ route('make-payment') }}", {
@@ -326,7 +404,12 @@
                         // 处理错误
                         console.error('Error:', error);
                         alert('An error occurred: ' + error.message);
+                    })
+                    .finally(() => {
+                        this.isMakePaymentClicked = false;
                     });
+
+                ;
             }
         },
     }).mount('#app')

@@ -73,6 +73,66 @@
 {{--            </section>--}}
 
             <!-- service section starts  -->
+            <style>
+              /* Service Section Styles */
+#service {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+#service .heading {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+#service .heading span {
+    color: #e74c3c;
+}
+
+#service .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#service .box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 300px;
+    width: 100%;
+}
+
+#service .box h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#service .box p {
+    color: #777;
+    font-size: 16px;
+}
+
+#service .box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #service .box-container {
+        flex-direction: column;
+    }
+}
+
+            </style>
             <section class="service" id="service">
               <h1 class="heading">our <span>Event</span></h1>
 

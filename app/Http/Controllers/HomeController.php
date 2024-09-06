@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -19,9 +19,9 @@ class HomeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
@@ -30,25 +30,9 @@ class HomeController extends Controller
         return view('welcome')->with(['events' => $events]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function checkHasLogin(): JsonResponse
     {
-        // Logic for showing the creation form
-        return view('createUser');
-    }
-
-
-    public function store(StoreUser $request)
-    {
-       $validated=$request->validated();
-       if($validated){
-
-        return back()->with('success','User created successfully');
-       }
-
+        return response()->json(['loggedIn' => auth()->check()]);
     }
 }

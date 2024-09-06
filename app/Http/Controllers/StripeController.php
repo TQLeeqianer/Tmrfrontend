@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\EventStall;
 use App\Models\SalesOrder;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
 
 
 class StripeController extends Controller
 {
-    public function processTransaction(Request $request)
+    public function processTransaction(Request $request): JsonResponse|string|null
     {
         $eventId = $request->get('eventId');
         $selectedStall = $request->get('selectedStall');
@@ -28,6 +29,8 @@ class StripeController extends Controller
             env('STRIPE_SECRET')
         );
 
+        
+
         try {
             //Request new price
             $price = $stripe->prices->create([
@@ -37,12 +40,17 @@ class StripeController extends Controller
             ]);
 
 
+            //Customer Info
+            $customer = auth()->user();
+
             //Create Sales Order
             $salesOrder = new SalesOrder();
             $salesOrder->order_number = 'SO-' . time().'-'.rand(10,100);
             $salesOrder->total_price = $payAmount;
             $salesOrder->status = 'pending';
             $salesOrder->stall_info = json_encode($selectedStall);
+            $salesOrder->customer_id = $customer->id;
+            $salesOrder->customer_name = $customer->name;
             $salesOrder->save();
 
 
@@ -81,13 +89,13 @@ class StripeController extends Controller
         foreach ($selectedStall as $stall) {
             $stall = EventStall::where('stall_id', $stall['stallId'])->first();
             $stall->status = 1;
-            $stall->stall_owner_id = $salesOrder->id;
+            $stall->stall_owner_id = $salesOrder->customer_id;
+            $stall->booked_at = now();
             $stall->save();
         }
 
         $url = route('event', ['id' => $eventId]). '?success=true';
 
-//        dd($url);
 
         return redirect()->to($url);
     }
